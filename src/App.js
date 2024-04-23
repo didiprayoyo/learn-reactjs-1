@@ -10,23 +10,21 @@ import About from './pages/About';
 
 // how to do best practices for components and using them
 import Navbar from './components/Navbar';
+import RandomComments from './components/RandomComments';
 
-const Desc = () => {
-    return (<h1>This is React</h1>);
-};
+const Desc = <h1>This is React</h1>;
 
 const DescCard = () => {
     return (
         <div class="card">
             <div class="card-body">
-                <Desc />
+                {Desc}
             </div>
         </div>
     );
 };
 
 const App = () => {
-    const contacts = [];
     return (
         <Router>
             <Navbar />
@@ -34,6 +32,7 @@ const App = () => {
             <Routes>
                 <Route path="/" exact element={<Home />} />
                 <Route path="/contact" element={<Contact contacts />} />
+                <Route path="/comment" element={<RandomComments />} />
                 <Route path="/about" element={<About />} />
             </Routes>
         </Router>
