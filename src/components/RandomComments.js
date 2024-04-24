@@ -1,6 +1,6 @@
 // React day2
 // import these libs
-import React from 'react'; // define & connect 1component
+import React, { Component } from 'react'; // define & connect 1component
 import ReactDOM from 'react-dom'; // show & interact component
 import { faker } from '@faker-js/faker';
 
@@ -31,7 +31,7 @@ const Intro = ({name, job}) => {
 }
 
 // > 1 orang dalam data sesuai format json berikut
-const data = [
+const peopleData = [
     {name: "luigi", job: "ghost hunter"},
     {name: "mario", job: "repairman"},
 ]
@@ -50,6 +50,7 @@ const Intro2 = ({people}) => {
 
 // Props: component nesting, reusability (different ), configuration (we can give, in same function, ex text-font etc)
 
+// ga perlu length, O(n) mah ga ngaruh
 const generateRandomComments = () => {
     const generateRandomDate = () => {
         const startDate = new Date(2023, 0, 1); // January 1, 2023
@@ -74,49 +75,71 @@ const generateRandomComments = () => {
     return {comments, length: randomNumber};
 }
 
-const Comment = ({key, avatar, name, sentence, date}) => {
-    return (
-        <div className="ui container comments" key={key}>
-            <div className="comment">
-                <a href="/" className="avatar">
-                    <img alt="avatar" src={avatar} />
-                </a>
-                <div className="content">
-                    <a href="/" className="author">
-                        {name}
+// const Comment = ({key, avatar, name, sentence, date}) => {
+    // return (
+class CommentContainer extends Component {
+    // problem: bbrp img avatar ga muncul
+    // lgsg pake props
+    render() {
+        return (
+            <div className="ui container comments" key={this.props.key}>
+                <div className="comment">
+                    <a href="/" className="avatar">
+                        <img alt="avatar" src={this.props.avatar} />
                     </a>
-                    <div className="metadata">
-                        {/* faker.date.recent(): Third-party cookie will be blocked. Learn more in the Issues tab. */}
-                        <span className="date">{date}</span>
+                    <div className="content">
+                        <a href="/" className="author">
+                            {this.props.name}
+                        </a>
+                        <div className="metadata">
+                            {/* faker.date.recent(): Third-party cookie will be blocked. Learn more in the Issues tab. */}
+                            <span className="date">{this.props.date}</span>
+                        </div>
+                        <div className="text">{this.props.sentence}</div>
                     </div>
-                    <div className="text">{sentence}</div>
                 </div>
             </div>
-        </div>
-    )
-}
+        )
+    };
+    // );
+};
 
-const Comments = ({data}) => {
-    return (
-        <div>
-            <h1>{data.length} Contacts</h1>
-            {data.comments.map((comment, index) => (
-                <>
-                    <Comment
+class Comments extends Component {
+    constructor(props){
+        super(props);
+        // console.log("ini props dalam constructor: ", props);
+        // state: nyimpen props (yg dipass ketika manggil jsx) buat react class component
+        // biasanya pakai useState
+        this.state = {
+            comments: props.data.comments,
+            length: props.data.length,
+        }
+    }
+
+    render() {
+        const { comments, length } = this.state;
+        // atau langsung ambil dari props, tanpa simpen state
+        // const { comments, length } = this.props.data;
+        // console.log("lagi render", this.props, comments, length);
+        return (
+            <div>
+                <h1>{comments.length} Contacts</h1>
+                {comments.map((comment, index) => (
+                    <CommentContainer
                     key={index}
                     avatar={comment.avatar}
                     name={comment.name}
                     sentence={comment.sentence}
                     date={comment.date}
                     />
-                </>
-            ))};
-        </div>
-    );
+                ))};
+            </div>
+        );
+    };
 };
 
 const RandomComments = () => {
-    return <Comments data={generateRandomComments()} />
+    return <Comments data={generateRandomComments()} />;
 }
 
 // root.render((
