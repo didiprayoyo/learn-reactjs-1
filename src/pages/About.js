@@ -1,13 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom'; // render to specific DOM
 
 const aboutElement = <h1>This web-app was created by Boruto</h1>; // di react auto udah ada jsx, cek aja modules
 // cek lagi format import img dari folder public
 
 const About = () => {
     return (
-        <h1>This web-app was created by Boruto</h1>
-        // <aboutElement />
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "Left",
+                alignItem: "Right",
+                height: "100vh",
+            }}
+        >
+            <h1>This is About Page.</h1>
+            {aboutElement}
+        </div>
+        // {[aboutElement]}
+        // bukan <aboutElement />
     );
 };
 

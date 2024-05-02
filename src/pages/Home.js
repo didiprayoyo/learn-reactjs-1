@@ -1,12 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom'; // render to specific DOM
 
 const Home = () => {
     return (
-        <>
-            <h1>This is React</h1>
-            <p>This is homepage, nothing to see here. Just use this contact web app!</p>
-        </>
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "Left",
+                alignItem: "Right",
+                height: "100vh",
+            }}
+        >
+            <h1>This is Home Page!</h1>
+            <p>Nothing to see here. Just use this react web app!</p>
+        </div>
     );
 };
 
